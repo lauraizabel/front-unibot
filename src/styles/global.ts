@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+  body {
+    font-size: calc(8px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+  }
+
   html,body{
     height:100%;
     min-height:100%; 

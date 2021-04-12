@@ -14,10 +14,4 @@ const fetchOneQA = async (id: string) => HttpClient.get(`questions/${id}`);
 
 const deleteQA = async (id: string) => HttpClient.delete(`questions/${id}`);
 
-export default {
-  postQA,
-  putQA,
-  fetchQA,
-  fetchOneQA,
-  deleteQA,
-};
+export { postQA, putQA, fetchQA, fetchOneQA, deleteQA };
