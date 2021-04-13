@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Container, TitleList, ContainerHead } from "./styles";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import {
   fetchQA,
@@ -34,6 +34,8 @@ function Home() {
   const [open, setOpen] = useState(false);
   const [qa, setQa] = useState<IQA[]>();
   const [id, setId] = useState<string>("");
+
+  const history = useHistory();
 
   const tableKeys = [
     "ID",
@@ -94,7 +96,11 @@ function Home() {
                       setId(questionAndAnswer._id);
                     }}
                   />
-                  <EditButton onClick={() => setId(questionAndAnswer._id)} />
+                  <EditButton
+                    onClick={() =>
+                      history.push(`/edit?id=${questionAndAnswer._id}`)
+                    }
+                  />
                 </TableCell>
               </TableRow>
             ))}
