@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { Container, TitleList, ContainerHead } from "./styles";
 
-import { fetchQA } from "../../api/questions-and-answers/rest-questions-and-answers";
+import { Link } from "react-router-dom";
+
+import {
+  fetchQA,
+  deleteQA,
+} from "../../api/questions-and-answers/rest-questions-and-answers";
 
 import DeleteButton from "../../components/DeleteButton";
 import EditButton from "../../components/EditButton";
@@ -16,6 +21,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import ConfirmDelete from "../../components/ConfirmDelete";
 
 interface IQA {
   topic?: string;
@@ -25,7 +31,9 @@ interface IQA {
 }
 
 function Home() {
+  const [open, setOpen] = useState(false);
   const [qa, setQa] = useState<IQA[]>();
+  const [id, setId] = useState<string>("");
 
   const tableKeys = [
     "ID",
@@ -48,11 +56,15 @@ function Home() {
     fetch();
   }, []);
 
+  const onConfirmDelete = async (id: string) => await deleteQA(id);
+
   return (
     <Container>
       <ContainerHead>
         <TitleList>Perguntas e Respostas</TitleList>
-        <ButtonAdd />
+        <Link to="/register">
+          <ButtonAdd />
+        </Link>
       </ContainerHead>
       <TableContainer>
         <Table className="table">
@@ -73,14 +85,26 @@ function Home() {
                 <TableCell>{questionAndAnswer?.q.length}</TableCell>
                 <TableCell>{questionAndAnswer?.a.length}</TableCell>
                 <TableCell className="actions">
-                  <DeleteButton />
-                  <EditButton />
+                  <DeleteButton
+                    onClick={() => {
+                      setOpen(true);
+                      setId(questionAndAnswer._id);
+                    }}
+                  />
+                  <EditButton onClick={() => setId(questionAndAnswer._id)} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <ConfirmDelete
+        open={open}
+        id={id}
+        onAgree={() => onConfirmDelete(id)}
+        onDisagree={() => setOpen(false)}
+        handleClose={() => setOpen(false)}
+      />
     </Container>
   );
 }

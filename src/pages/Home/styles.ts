@@ -51,6 +51,11 @@ export const TitleList = styled.h1`
 export const ContainerHead = styled.div`
   width: 90%;
   margin: 0 auto 28px;
+
+  a {
+    text-decoration: none;
+  }
+
   button {
     margin-left: auto;
   }
