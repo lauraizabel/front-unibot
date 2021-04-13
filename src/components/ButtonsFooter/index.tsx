@@ -8,7 +8,7 @@ import { Container } from "./styles";
 
 interface ButtonsFooterProps {
   onClickCancel(): void;
-  onClickSave(): void;
+  onClickSave(e?: any): void | Promise<void>;
 }
 
 function ButtonsFooter({ onClickCancel, onClickSave }: ButtonsFooterProps) {

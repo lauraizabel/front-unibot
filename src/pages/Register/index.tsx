@@ -28,6 +28,13 @@ function Register() {
 
   const history = useHistory();
 
+  const handleChangeTopic = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const { value } = event.target;
+    setForm({ ...form, topic: value });
+  };
+
   const handleAddQA = (type: string) =>
     type === "q"
       ? setForm((oldList) => ({
@@ -53,7 +60,6 @@ function Register() {
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     try {
       event.preventDefault();
-
       const formattedQuestions = form.listQuestions.map((question) => {
         const index = question.indexOf("?");
 
@@ -61,13 +67,14 @@ function Register() {
 
         return question;
       });
+      const formattedData = {
+        topic: form.topic,
+        questions: formattedQuestions,
+        answer: form.listAnswers,
+      };
 
-      const { data } = await postQA({
-        ...form,
-        listQuestions: formattedQuestions,
-      });
-      console.log(data);
-      // history.push("/");
+      await postQA(formattedData);
+      history.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +85,12 @@ function Register() {
       <TitleList>Registrar Perguntas e respostas</TitleList>
       <Form onSubmit={(e) => handleSubmit(e)}>
         <div className="container-topic">
-          <TextField name="topic" label="Tópico da pergunta" required />
+          <TextField
+            name="topic"
+            label="Tópico da pergunta"
+            required
+            onChange={(e) => handleChangeTopic(e)}
+          />
         </div>
         <ContainerForm>
           <SubTitle> Se o usuário falar sobre:</SubTitle>
@@ -125,7 +137,7 @@ function Register() {
       </Form>
       <ButtonsFooter
         onClickCancel={cancel}
-        onClickSave={() => console.log("hi")}
+        onClickSave={(e: any) => handleSubmit(e)}
       />
     </Container>
   );
