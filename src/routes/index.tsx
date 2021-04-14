@@ -5,6 +5,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Edit from "../pages/Edit";
+import Login from "../pages/Login";
 
 import GlobalStyles from "../styles/global";
 
@@ -22,6 +23,9 @@ const Routes: React.FC = () => {
           </Route>
           <Route path="/edit" exact>
             <Edit />
+          </Route>
+          <Route path="/login" exact>
+            <Login />
           </Route>
         </Switch>
       </BrowserRouter>

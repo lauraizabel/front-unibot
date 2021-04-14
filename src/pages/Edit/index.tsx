@@ -101,7 +101,7 @@ function Edit() {
 
   useEffect(() => {
     fetchOne(id as string);
-  }, [, id]);
+  }, [id]);
 
   return (
     <Container>
@@ -113,6 +113,7 @@ function Edit() {
             label="Tópico da pergunta"
             required
             onChange={(e) => handleChangeTopic(e)}
+            value={form.topic}
           />
         </div>
         <ContainerForm>
