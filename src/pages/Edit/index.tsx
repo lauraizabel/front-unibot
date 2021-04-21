@@ -13,7 +13,7 @@ import {
 
 import {
   Container,
-  TitleList,
+  ContainerHeader,
   Form,
   ContainerForm,
   InputGroup,
@@ -22,6 +22,7 @@ import {
 } from "./styles";
 
 import ButtonsFooter from "../../components/ButtonsFooter";
+import Header from "../../components/Header";
 
 function Edit() {
   const id = new URLSearchParams(useLocation().search).get("id");
@@ -105,7 +106,9 @@ function Edit() {
 
   return (
     <Container>
-      <TitleList>Editar Perguntas e respostas</TitleList>
+      <ContainerHeader>
+        <Header title="Editar Perguntas e respostas" />
+      </ContainerHeader>
       <Form onSubmit={(e) => handleSubmit(e)}>
         <div className="container-topic">
           <TextField

@@ -15,9 +15,11 @@ import {
   InputGroup,
   ButtonAdd,
   SubTitle,
+  ContainerHeader,
 } from "./styles";
 
 import ButtonsFooter from "../../components/ButtonsFooter";
+import Header from "../../components/Header";
 
 function Register() {
   const [form, setForm] = useState({
@@ -82,7 +84,9 @@ function Register() {
 
   return (
     <Container>
-      <TitleList>Registrar Perguntas e respostas</TitleList>
+      <ContainerHeader>
+        <Header title="Registrar Perguntas e respostas" />
+      </ContainerHeader>
       <Form onSubmit={(e) => handleSubmit(e)}>
         <div className="container-topic">
           <TextField

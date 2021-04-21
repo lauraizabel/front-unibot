@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, TitleList, ContainerHead } from "./styles";
+import { Container, ContainerHead } from "./styles";
 
 import { Link, useHistory } from "react-router-dom";
 
@@ -12,6 +12,7 @@ import {
 import DeleteButton from "../../components/DeleteButton";
 import EditButton from "../../components/EditButton";
 import ButtonAdd from "../../components/ButtonAdd";
+import Header from "../../components/Header";
 
 import {
   Table,
@@ -67,7 +68,7 @@ function Home() {
   return (
     <Container>
       <ContainerHead>
-        <TitleList>Perguntas e Respostas</TitleList>
+        <Header title="Perguntas e Respostas" />
         <Link to="/register">
           <ButtonAdd />
         </Link>

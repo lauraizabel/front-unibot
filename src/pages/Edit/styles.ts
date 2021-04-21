@@ -73,3 +73,7 @@ export const SubTitle = styled.h4`
   margin: 16px auto 0px;
   color: #7d938a;
 `;
+
+export const ContainerHeader = styled.div`
+  height: 20%;
+`;
