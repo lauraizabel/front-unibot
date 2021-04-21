@@ -60,3 +60,9 @@ export const ContainerHead = styled.div`
     margin-left: auto;
   }
 `;
+
+export const DivButtonField = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

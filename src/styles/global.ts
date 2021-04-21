@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     min-width: 100%;
     background-color:  #7D938A;
+    box-sizing: border-box;
   }
 
   #root {
@@ -20,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
     min-height:100%; 
     width: 100%;
     min-width: 100%;
-    overflow: hidden;
   }
 
   * {

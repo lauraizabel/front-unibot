@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { Container, ContainerHead } from "./styles";
+import { Container, ContainerHead, DivButtonField } from "./styles";
 
 import { Link, useHistory } from "react-router-dom";
+import Fuse from "fuse.js";
 
 import {
   fetchQA,
@@ -21,7 +22,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
+
 import ConfirmDelete from "../../components/ConfirmDelete";
 
 interface IQA {
@@ -33,10 +36,29 @@ interface IQA {
 
 function Home() {
   const [open, setOpen] = useState(false);
-  const [qa, setQa] = useState<IQA[]>();
+  const [qa, setQa] = useState<IQA[]>([]);
   const [id, setId] = useState<string>("");
+  const [search, setSearch] = useState("");
 
   const history = useHistory();
+
+  const options = {
+    // isCaseSensitive: false,
+    // includeScore: false,
+    // shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: false,
+    // minMatchCharLength: 1,
+    // location: 0,
+    threshold: 0.2,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+    keys: ["topic"],
+  };
+
+  const fuse = new Fuse(qa, options);
 
   const tableKeys = [
     "ID",
@@ -65,13 +87,29 @@ function Home() {
     setOpen(false);
   };
 
+  const searchedQA = useMemo(() => {
+    if (search.length !== 0) {
+      const result = fuse.search(search);
+      const formattedResult = result.map((e) => e.item);
+      return formattedResult;
+    }
+    return qa;
+  }, [search, qa]);
+  console.log(search);
   return (
     <Container>
       <ContainerHead>
         <Header title="Perguntas e Respostas" />
-        <Link to="/register">
-          <ButtonAdd />
-        </Link>
+        <DivButtonField>
+          <TextField
+            label="Pesquise por tópicos"
+            margin="normal"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Link to="/register">
+            <ButtonAdd />
+          </Link>
+        </DivButtonField>
       </ContainerHead>
       <TableContainer>
         <Table className="table">
@@ -83,7 +121,7 @@ function Home() {
             </TableRow>
           </TableHead>
           <TableBody className="table-body">
-            {qa?.map((questionAndAnswer) => (
+            {searchedQA?.map((questionAndAnswer) => (
               <TableRow>
                 <TableCell>{questionAndAnswer?._id.substr(18)}</TableCell>
                 <TableCell>
