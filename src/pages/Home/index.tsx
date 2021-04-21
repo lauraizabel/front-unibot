@@ -60,6 +60,7 @@ function Home() {
 
   const onConfirmDelete = async (id: string) => {
     await deleteQA(id);
+    fetch();
     setOpen(false);
   };
 
