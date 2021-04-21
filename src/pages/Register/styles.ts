@@ -8,6 +8,7 @@ export const Container = styled.form`
   -webkit-box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
   -moz-box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
   box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
+  overflow: auto;
 `;
 
 export const TitleList = styled.h2`
