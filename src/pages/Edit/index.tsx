@@ -91,9 +91,9 @@ function Edit() {
     try {
       const { data } = await fetchOneQA(id);
       setForm({
-        topic: data.topic ?? "",
-        listAnswers: data.a,
-        listQuestions: data.q,
+        topic: data[0].topic ?? "",
+        listAnswers: data[0].a ?? [],
+        listQuestions: data[0].q ?? [],
       });
     } catch (error) {
       console.log(error);
@@ -122,7 +122,7 @@ function Edit() {
         <ContainerForm>
           <SubTitle> Se o usuário falar sobre:</SubTitle>
           <div>
-            {form.listQuestions.map((q, index) => (
+            {form?.listQuestions?.map((q, index) => (
               <InputGroup>
                 <TextField
                   id="standard-basic"
@@ -142,7 +142,7 @@ function Edit() {
           </div>
           <div>
             <SubTitle> A resposta será:</SubTitle>
-            {form.listAnswers.map((a, index) => (
+            {form?.listAnswers?.map((a, index) => (
               <InputGroup>
                 <TextField
                   id="standard-basic"

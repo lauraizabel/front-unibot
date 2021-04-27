@@ -8,6 +8,7 @@ import Edit from "../pages/Edit";
 import Login from "../pages/Login";
 
 import GlobalStyles from "../styles/global";
+import RegisterUser from "../pages/RegisterUser";
 
 const Routes: React.FC = () => {
   return (
@@ -26,6 +27,9 @@ const Routes: React.FC = () => {
           </Route>
           <Route path="/login" exact>
             <Login />
+          </Route>
+          <Route path="/register_user" exact>
+            <RegisterUser />
           </Route>
         </Switch>
       </BrowserRouter>
