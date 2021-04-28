@@ -12,10 +12,9 @@ import {
 
 import Header from "../../components/Header";
 
-import { Tabs, Tab, TextField } from "@material-ui/core";
+import { Tabs, Tab } from "@material-ui/core";
 import Table from "./components/Table";
 import ConfirmDelete from "../../components/ConfirmDelete";
-import ButtonToggle from "../../components/ButtonToggle";
 import TabPanel from "./components/TabPanel";
 
 interface IQA {
