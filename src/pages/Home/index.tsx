@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from "react";
 
-import { Container, ContainerHead, DivButtonField } from "./styles";
+import { Container, ContainerHead } from "./styles";
 
-import { Link, useHistory } from "react-router-dom";
 import Fuse from "fuse.js";
 
 import {
@@ -11,22 +10,13 @@ import {
   deleteQA,
 } from "../../api/questions-and-answers/rest-questions-and-answers";
 
-import DeleteButton from "../../components/DeleteButton";
-import EditButton from "../../components/EditButton";
-import ButtonAdd from "../../components/ButtonAdd";
 import Header from "../../components/Header";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@material-ui/core";
-
+import { Tabs, Tab, TextField } from "@material-ui/core";
+import Table from "./components/Table";
 import ConfirmDelete from "../../components/ConfirmDelete";
+import ButtonToggle from "../../components/ButtonToggle";
+import TabPanel from "./components/TabPanel";
 
 interface IQA {
   topic?: string;
@@ -40,22 +30,11 @@ function Home() {
   const [qa, setQa] = useState<IQA[]>([]);
   const [id, setId] = useState<string>("");
   const [search, setSearch] = useState("");
-
-  const history = useHistory();
+  const [value, setValue] = React.useState(0);
 
   const options = {
-    // isCaseSensitive: false,
-    // includeScore: false,
-    // shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: false,
-    // minMatchCharLength: 1,
-    // location: 0,
     threshold: 0.2,
-    // distance: 100,
-    // useExtendedSearch: false,
-    // ignoreLocation: false,
-    // ignoreFieldNorm: false,
+
     keys: ["topic"],
   };
 
@@ -88,6 +67,10 @@ function Home() {
     setOpen(false);
   };
 
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
   const searchedQA = useMemo(() => {
     if (search.length !== 0) {
       const result = fuse.search(search);
@@ -96,58 +79,35 @@ function Home() {
     }
     return qa;
   }, [search, qa]);
-  console.log(search);
+
   return (
     <Container>
       <ContainerHead>
-        <Header title="Perguntas e Respostas" />
-        <DivButtonField>
-          <TextField
-            label="Pesquise por tópicos"
-            margin="normal"
-            onChange={(e) => setSearch(e.target.value)}
+        <Header />
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+        >
+          <Tab label="Perguntas e Respostas" />
+          <Tab label="Usuários" />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <Table
+            setId={setId}
+            setOpen={setOpen}
+            searchedQA={searchedQA}
+            tableKeys={tableKeys}
+            setSearch={setSearch}
           />
-          <Link to="/register">
-            <ButtonAdd />
-          </Link>
-        </DivButtonField>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
       </ContainerHead>
-      <TableContainer>
-        <Table className="table">
-          <TableHead className="table-head">
-            <TableRow>
-              {tableKeys.map((key) => (
-                <TableCell>{key}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody className="table-body">
-            {searchedQA?.map((questionAndAnswer) => (
-              <TableRow>
-                <TableCell>{questionAndAnswer?._id.substr(18)}</TableCell>
-                <TableCell>
-                  {questionAndAnswer?.topic ?? "Tópico não encontrado."}
-                </TableCell>
-                <TableCell>{questionAndAnswer?.q.length}</TableCell>
-                <TableCell>{questionAndAnswer?.a.length}</TableCell>
-                <TableCell className="actions">
-                  <DeleteButton
-                    onClick={() => {
-                      setOpen(true);
-                      setId(questionAndAnswer._id);
-                    }}
-                  />
-                  <EditButton
-                    onClick={() =>
-                      history.push(`/edit?id=${questionAndAnswer._id}`)
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+
       <ConfirmDelete
         open={open}
         id={id}

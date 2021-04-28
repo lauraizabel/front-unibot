@@ -23,8 +23,6 @@ export const Container = styled.div`
   }
 
   .table {
-    width: 90%;
-    margin: 0 auto;
     -webkit-box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
     -moz-box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
     box-shadow: -1px 20px 30px -3px rgba(0, 0, 0, 0.61);
@@ -59,10 +57,4 @@ export const ContainerHead = styled.div`
   button {
     margin-left: auto;
   }
-`;
-
-export const DivButtonField = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;

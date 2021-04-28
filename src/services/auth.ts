@@ -7,7 +7,7 @@ export interface AuthDataType {
 
 export function isAuthenticated(): boolean {
   const auth = localStorage.getItem(key);
-
+  console.log(auth);
   if (!auth) return false;
 
   return true;

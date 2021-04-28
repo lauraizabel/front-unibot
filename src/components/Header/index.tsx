@@ -5,7 +5,7 @@ import { Container, TitleList, ImageHeader } from "./styles";
 import Unibode from "../../assets/img/unibode_pink.png";
 
 interface HeaderProps {
-  title: string;
+  title?: string;
 }
 
 function Header({ title }: HeaderProps) {

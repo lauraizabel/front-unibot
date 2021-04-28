@@ -1,11 +1,13 @@
 import React from "react";
 
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Redirect, BrowserRouter, Route } from "react-router-dom";
 
 import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Edit from "../pages/Edit";
 import Login from "../pages/Login";
+
+import ProtectRouter from "./PrivateRouter";
 
 import GlobalStyles from "../styles/global";
 import RegisterUser from "../pages/RegisterUser";
@@ -16,22 +18,24 @@ const Routes: React.FC = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact>
+          <ProtectRouter path="/" exact>
             <Home />
-          </Route>
-          <Route path="/register" exact>
+          </ProtectRouter>
+          <ProtectRouter path="/register" exact>
             <Register />
-          </Route>
-          <Route path="/edit" exact>
+          </ProtectRouter>
+          <ProtectRouter path="/edit" exact>
             <Edit />
-          </Route>
-          <Route path="/login" exact>
-            <Login />
-          </Route>
-          <Route path="/register_user" exact>
+          </ProtectRouter>
+
+          <ProtectRouter path="/register_user" exact>
             <RegisterUser />
-          </Route>
+          </ProtectRouter>
         </Switch>
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <Redirect to="/login" />
       </BrowserRouter>
     </>
   );
