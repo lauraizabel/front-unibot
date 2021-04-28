@@ -11,6 +11,7 @@ import ProtectRouter from "./PrivateRouter";
 
 import GlobalStyles from "../styles/global";
 import RegisterUser from "../pages/RegisterUser";
+import EditUser from "../pages/EditUser";
 
 const Routes: React.FC = () => {
   return (
@@ -30,6 +31,9 @@ const Routes: React.FC = () => {
 
           <ProtectRouter path="/register_user" exact>
             <RegisterUser />
+          </ProtectRouter>
+          <ProtectRouter path="/edit_user" exact>
+            <EditUser />
           </ProtectRouter>
         </Switch>
         <Route path="/login" exact>

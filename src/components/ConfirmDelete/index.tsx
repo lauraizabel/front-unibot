@@ -20,6 +20,7 @@ interface ConfirmDeleteProps {
   open: boolean;
   handleClose: () => void;
   id: string;
+  text: string;
 }
 
 function ConfirmDelete({
@@ -28,6 +29,7 @@ function ConfirmDelete({
   open,
   handleClose,
   id,
+  text,
 }: ConfirmDeleteProps) {
   return (
     <Container>
@@ -37,7 +39,7 @@ function ConfirmDelete({
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Tem certeza de que deseja excluir este tópico?
+            {text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

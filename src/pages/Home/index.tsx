@@ -10,7 +10,7 @@ import {
   deleteQA,
 } from "../../api/questions-and-answers/rest-questions-and-answers";
 
-import { fetchUsers } from "../../api/user/rest-user";
+import { deleteUser, fetchUsers } from "../../api/user/rest-user";
 
 import Header from "../../components/Header";
 
@@ -42,6 +42,7 @@ function Home() {
   const [searchEmail, setSearchEmail] = useState("");
   const [value, setValue] = useState(0);
   const [users, setUsers] = useState<IUsers[]>([]);
+
   const options = {
     threshold: 0.2,
     keys: ["topic", "email"],
@@ -75,9 +76,9 @@ function Home() {
   }, []);
 
   const onConfirmDelete = async (id: string) => {
-    await deleteQA(id);
-    fetch();
+    value === 0 ? await deleteQA(id) : await deleteUser(id);
     setOpen(false);
+    fetch();
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -142,6 +143,9 @@ function Home() {
         onAgree={() => onConfirmDelete(id)}
         onDisagree={() => setOpen(false)}
         handleClose={() => setOpen(false)}
+        text={`Tem certeza de que deseja excluir este ${
+          value === 0 ? "tópico" : "usuário"
+        }?`}
       />
     </Container>
   );

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,8 +10,8 @@ import { isValidEmail } from "@brazilian-utils/brazilian-utils";
 
 import { Container, ContainerImage, ContainerForm, FooterForm } from "./styles";
 import Unibode from "../../assets/img/unibode_pink.png";
-import { postUser } from "../../api/user/rest-user";
-import { useHistory } from "react-router";
+import { fetchOneUser, putUser } from "../../api/user/rest-user";
+import { useHistory, useLocation } from "react-router";
 
 interface IForm {
   email: string;
@@ -19,7 +20,7 @@ interface IForm {
   admin: boolean;
 }
 
-function RegisterUser() {
+function EditUser() {
   const [helperTexts, setHelperTexts] = useState({
     password: "",
     email: "",
@@ -31,6 +32,8 @@ function RegisterUser() {
     admin: false,
   });
 
+  const id = new URLSearchParams(useLocation().search).get("id");
+
   const history = useHistory();
 
   const handleChangeForm = (
@@ -38,6 +41,16 @@ function RegisterUser() {
     name: "email" | "password" | "passwordConfirm"
   ) => {
     setForm({ ...form, [name]: value });
+  };
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await fetchOneUser(id || "");
+      data[0].password = "";
+      setForm(data[0]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +76,7 @@ function RegisterUser() {
 
       setHelperTexts({ password: "", email: "" });
 
-      await postUser({
+      await putUser(id || "", {
         email: form.email,
         password: form.password,
         admin: form.admin,
@@ -74,11 +87,15 @@ function RegisterUser() {
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <Container>
       <ContainerImage>
         <img src={Unibode} alt="unibode" />
-        <h2>Cadastrar Novo Usuário</h2>
+        <h2>Editar usuário</h2>
       </ContainerImage>
       <ContainerForm>
         <TextField
@@ -141,4 +158,4 @@ function RegisterUser() {
   );
 }
 
-export default RegisterUser;
+export default EditUser;
