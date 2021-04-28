@@ -6,6 +6,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@material-ui/core";
+
 import { isValidEmail } from "@brazilian-utils/brazilian-utils";
 
 import { Container, ContainerImage, ContainerForm, FooterForm } from "./styles";
