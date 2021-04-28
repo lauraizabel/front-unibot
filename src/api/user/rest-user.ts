@@ -5,3 +5,5 @@ export const postUser = async (data: any) =>
 
 export const authUser = async (data: any) =>
   await HttpClient.post("/users/login", data);
+
+export const fetchUsers = async () => await HttpClient.get("/users");

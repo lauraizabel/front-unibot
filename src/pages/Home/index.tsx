@@ -10,12 +10,15 @@ import {
   deleteQA,
 } from "../../api/questions-and-answers/rest-questions-and-answers";
 
+import { fetchUsers } from "../../api/user/rest-user";
+
 import Header from "../../components/Header";
 
 import { Tabs, Tab } from "@material-ui/core";
 import Table from "./components/Table";
 import ConfirmDelete from "../../components/ConfirmDelete";
 import TabPanel from "./components/TabPanel";
+import TableUsers from "./components/TableUsers";
 
 interface IQA {
   topic?: string;
@@ -24,21 +27,28 @@ interface IQA {
   _id: string;
 }
 
+interface IUsers {
+  admin: boolean;
+  email: string;
+  password: string;
+  _id: string;
+}
+
 function Home() {
   const [open, setOpen] = useState(false);
   const [qa, setQa] = useState<IQA[]>([]);
   const [id, setId] = useState<string>("");
   const [search, setSearch] = useState("");
-  const [value, setValue] = React.useState(0);
-
+  const [searchEmail, setSearchEmail] = useState("");
+  const [value, setValue] = useState(0);
+  const [users, setUsers] = useState<IUsers[]>([]);
   const options = {
     threshold: 0.2,
-
-    keys: ["topic"],
+    keys: ["topic", "email"],
   };
 
   const fuse = new Fuse(qa, options);
-
+  const fuseEmail = new Fuse(users, options);
   const tableKeys = [
     "ID",
     "TÓPICOS",
@@ -47,10 +57,14 @@ function Home() {
     "AÇÕES",
   ];
 
+  const tableKeysUser = ["ID", "E-mail", "Admin", "Ações"];
+
   const fetch = async () => {
     try {
       const { data } = await fetchQA();
       setQa(data);
+      const { data: users } = await fetchUsers();
+      setUsers(users);
     } catch (error) {
       console.log(error);
     }
@@ -79,6 +93,15 @@ function Home() {
     return qa;
   }, [search, qa]);
 
+  const searchedUsers = useMemo(() => {
+    if (searchEmail.length !== 0) {
+      const result = fuseEmail.search(searchEmail);
+      const formattedResult = result.map((e) => e.item);
+      return formattedResult;
+    }
+    return users;
+  }, [searchEmail, users]);
+
   return (
     <Container>
       <ContainerHead>
@@ -103,7 +126,13 @@ function Home() {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <TableUsers
+            tableKeys={tableKeysUser}
+            setId={setId}
+            setOpen={setOpen}
+            dataUsers={searchedUsers}
+            setSearch={setSearchEmail}
+          />
         </TabPanel>
       </ContainerHead>
 
