@@ -25,7 +25,7 @@ function Header({ title }: HeaderProps) {
       <ImageHeader src={Unibode} />
       <Logout onClick={handleLogout}>
         <CgLogOut />
-        <h3>Logout</h3>
+        <h5>Logout</h5>
       </Logout>
       <TitleList>{title}</TitleList>
     </Container>

@@ -10,7 +10,7 @@ import {
   deleteQA,
 } from "../../api/questions-and-answers/rest-questions-and-answers";
 
-import { deleteUser, fetchUsers } from "../../api/user/rest-user";
+import { deleteUser, fetchOneUser, fetchUsers } from "../../api/user/rest-user";
 
 import Header from "../../components/Header";
 
@@ -19,6 +19,7 @@ import Table from "./components/Table";
 import ConfirmDelete from "../../components/ConfirmDelete";
 import TabPanel from "./components/TabPanel";
 import TableUsers from "./components/TableUsers";
+import { getUserId } from "../../services/localStorage";
 
 interface IQA {
   topic?: string;
@@ -42,6 +43,7 @@ function Home() {
   const [searchEmail, setSearchEmail] = useState("");
   const [value, setValue] = useState(0);
   const [users, setUsers] = useState<IUsers[]>([]);
+  const [user, setUser] = useState<IUsers>();
 
   const options = {
     threshold: 0.2,
@@ -58,7 +60,9 @@ function Home() {
     "AÇÕES",
   ];
 
-  const tableKeysUser = ["ID", "E-mail", "Admin", "Ações"];
+  const tableKeysUser = user?.admin
+    ? ["ID", "E-mail", "Admin", "Ações"]
+    : ["ID", "E-mail", "Admin"];
 
   const fetch = async () => {
     try {
@@ -66,6 +70,9 @@ function Home() {
       setQa(data);
       const { data: users } = await fetchUsers();
       setUsers(users);
+
+      const { data: user } = await fetchOneUser(getUserId() ?? "");
+      setUser(user[0]);
     } catch (error) {
       console.log(error);
     }
@@ -133,6 +140,7 @@ function Home() {
             setOpen={setOpen}
             dataUsers={searchedUsers}
             setSearch={setSearchEmail}
+            isAdmin={user?.admin}
           />
         </TabPanel>
       </ContainerHead>

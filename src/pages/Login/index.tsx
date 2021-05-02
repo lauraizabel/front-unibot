@@ -13,6 +13,7 @@ import {
 import Unibode from "../../assets/img/unibode_pink.png";
 import { authUser } from "../../api/user/rest-user";
 import { saveAuthData } from "../../services/auth";
+import { setUserId } from "../../services/localStorage";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -26,6 +27,7 @@ function Login() {
     try {
       const { data } = await authUser(form);
       saveAuthData(data);
+      setUserId(data.userId);
       history.push("/");
     } catch (error) {
       setError("Credenciais inválidas.");

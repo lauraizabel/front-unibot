@@ -30,6 +30,7 @@ interface TableUsersProps {
   setId: (value: React.SetStateAction<string>) => void;
   setOpen: (value: React.SetStateAction<boolean>) => void;
   setSearch: (value: React.SetStateAction<string>) => void;
+  isAdmin: boolean | undefined;
 }
 
 function TableUsers({
@@ -38,6 +39,7 @@ function TableUsers({
   setId,
   setOpen,
   setSearch,
+  isAdmin = false,
 }: TableUsersProps) {
   const history = useHistory();
 
@@ -49,7 +51,7 @@ function TableUsers({
           margin="normal"
           onChange={(e) => setSearch(e.target.value)}
         />
-        <ButtonToggle link={"/register_user"} />
+        {isAdmin && <ButtonToggle link={"/register_user"} />}
       </DivButtonField>
       <TableContainer>
         <Table className="table">
@@ -66,17 +68,19 @@ function TableUsers({
                 <TableCell>{user?._id.substr(18)}</TableCell>
                 <TableCell>{user?.email ?? "E-mail não encontrado."}</TableCell>
                 <TableCell>{user?.admin ? "SIM" : "NÃO"}</TableCell>
-                <TableCell className="actions">
-                  <DeleteButton
-                    onClick={() => {
-                      setOpen(true);
-                      setId(user._id);
-                    }}
-                  />
-                  <EditButton
-                    onClick={() => history.push(`/edit_user?id=${user._id}`)}
-                  />
-                </TableCell>
+                {isAdmin && (
+                  <TableCell className="actions">
+                    <DeleteButton
+                      onClick={() => {
+                        setOpen(true);
+                        setId(user._id);
+                      }}
+                    />
+                    <EditButton
+                      onClick={() => history.push(`/edit_user?id=${user._id}`)}
+                    />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
