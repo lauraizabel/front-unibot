@@ -6,6 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 `;
 
 export const TitleList = styled.h1`
@@ -19,4 +20,17 @@ export const TitleList = styled.h1`
 export const ImageHeader = styled.img`
   margin-top: 5%;
   height: 60%;
+`;
+
+export const Logout = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  svg {
+    margin-right: 6px;
+  }
+  color: #3f51b5;
 `;

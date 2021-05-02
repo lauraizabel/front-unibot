@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 
 import {
@@ -68,7 +68,6 @@ function Login() {
               >
                 Entrar
               </Button>
-              <Link to="/register_user">Cadastrar</Link>
             </div>
           </FooterForm>
         </ContainerForm>
